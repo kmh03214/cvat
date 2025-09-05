@@ -29,6 +29,12 @@ services:
       COVERAGE_PROCESS_START:
     ports:
       - '127.0.0.1:9090:9090'
+    volumes:
+      # Live reload for development - mount source code
+      - ./cvat:/home/django/cvat:rw
+      - ./utils:/home/django/utils:rw
+      - ./manage.py:/home/django/manage.py:rw
+      - ./rqscheduler.py:/home/django/rqscheduler.py:rw
 
   cvat_worker_export:
     environment:
@@ -99,6 +105,13 @@ services:
         no_proxy:
         socks_proxy:
       dockerfile: Dockerfile.ui
+    volumes:
+      # Live reload for UI development - mount source code
+      - ./cvat-ui:/tmp/cvat-ui:rw
+      - ./cvat-core:/tmp/cvat-core:rw
+      - ./cvat-canvas:/tmp/cvat-canvas:rw
+      - ./cvat-canvas3d:/tmp/cvat-canvas3d:rw
+      - ./cvat-data:/tmp/cvat-data:rw
 
   cvat_clickhouse:
     ports:
